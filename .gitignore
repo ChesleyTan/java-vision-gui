@@ -1,14 +1,26 @@
-bin/
-lib/opencv/
+lib/opencv-*
+
+# Compiled Files #
 *.class
+doc/
+bin/
+build/
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# Text Backup Files #
+*.sw[a-z]
+*~
+\#*\#
+.\#*
 
-# Package Files #
-*.jar
-*.war
-*.ear
+# OS X Files #
+.DS_Store
+._*
+.Spotlight*
+.Trashes
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# Windows Files #
+Thumbs.db
+ehthumbs.db
+
+# Virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
