@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="OpenCV-3.0.0" systemlibrary="false">
+        <archive nativelibpaths="/home/chesley/workspace/java-vision-gui/lib/opencv/build/lib" path="/java-vision-gui/lib/opencv-300.jar"/>
+    </library>
+</eclipse-userlibraries>
