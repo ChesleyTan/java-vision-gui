@@ -7,7 +7,7 @@ import org.opencv.core.Mat;
 import gui.Main;
 
 public class VisionModule1 implements VisionModule {
-    public void run(Main app) {
+    public void run(Main app, Mat frame) {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {

@@ -56,19 +56,24 @@ public class Main extends Application {
         MatOfByte buffer = new MatOfByte();
         Imgcodecs.imencode(".png", m, buffer);
         Image image = new Image(new ByteArrayInputStream(buffer.toArray()));
-        if (images.get(label) == null) {
+        ImageFrame existingFrame = images.get(label);
+        if (existingFrame == null) {
             VBox container = new VBox();
             Text text = new Text(label);
             ImageView imageView = new ImageView(image);
             container.setAlignment(Pos.CENTER);
             container.getChildren().addAll(imageView, text);
-            images.put(label, new ImageFrame(container, imageView));
+            images.put(label, new ImageFrame(container, imageView, text));
             Platform.runLater(() -> {
                 controlsController.flowPane.getChildren().add(container);
             });
         }
         else {
-            images.get(label).imageView.setImage(image);
+            Platform.runLater(() -> {
+                existingFrame.imageView.setImage(image);
+                existingFrame.imageView.toFront();
+                existingFrame.label.toFront();
+            });
         }
     }
 
@@ -79,9 +84,11 @@ public class Main extends Application {
     private class ImageFrame {
         private VBox container;
         private ImageView imageView;
-        public ImageFrame(VBox container, ImageView imageView) {
+        private Text label;
+        public ImageFrame(VBox container, ImageView imageView, Text label) {
             this.container = container;
             this.imageView = imageView;
+            this.label = label;
         }
     }
 }
