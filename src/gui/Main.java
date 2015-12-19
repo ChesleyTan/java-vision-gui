@@ -12,16 +12,16 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import vision.ModuleRunner;
 
 public class Main extends Application {
-    private AnchorPane root;
+    private ScrollPane root;
     private Scene scene;
     private ControlsController controlsController;
     private ModuleRunner moduleRunner = new ModuleRunner();
@@ -38,6 +38,7 @@ public class Main extends Application {
             scene.getStylesheets().add(getClass().getResource("css/main.css").toExternalForm());
             moduleRunner.run(this);
             primaryStage.setOnCloseRequest((event) -> quit());
+            primaryStage.setTitle("Java Vision GUI");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {
@@ -50,7 +51,7 @@ public class Main extends Application {
         System.exit(0);
     }
 
-    public void postImage(Mat m, String label) {
+    public synchronized void postImage(Mat m, String label) {
         // Convert raw image to PNG
         MatOfByte buffer = new MatOfByte();
         Imgcodecs.imencode(".png", m, buffer);
@@ -63,7 +64,7 @@ public class Main extends Application {
             container.getChildren().addAll(imageView, text);
             images.put(label, new ImageFrame(container, imageView));
             Platform.runLater(() -> {
-                root.getChildren().add(container);
+                controlsController.flowPane.getChildren().add(container);
             });
         }
         else {
