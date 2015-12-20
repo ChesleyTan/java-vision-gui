@@ -4,21 +4,20 @@ import java.util.HashMap;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.videoio.VideoCapture;
 
 import gui.Main;
+import util.DebugPrinter;
 
 public class ModuleRunner {
-    private HashMap<VideoCapture, VisionModule[]> sourceDestMap;
+    private HashMap<CaptureSource, VisionModule[]> sourceDestMap = new HashMap<CaptureSource, VisionModule[]>();
     private int FPS = 10;
     static {
-        System.out.println("OpenCV version: " + Core.VERSION);
-        System.out.println("Native library path: " + System.getProperty("java.library.path"));
+        DebugPrinter.println("OpenCV version: " + Core.VERSION);
+        DebugPrinter.println("Native library path: " + System.getProperty("java.library.path"));
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
     {
-        sourceDestMap = new HashMap<VideoCapture, VisionModule[]>();
-        sourceDestMap.put(new VideoCapture(0), new VisionModule[] { new VisionModule1(), new VisionModule2() });
+        sourceDestMap.put(new CaptureSource(""), new VisionModule[] { new VisionModule1(), new VisionModule2() });
     }
 
     public void run(Main app) {
@@ -26,12 +25,21 @@ public class ModuleRunner {
             @Override
             public void run() {
                 while (true) {
-                    for (VideoCapture captureSource : sourceDestMap.keySet()) {
+                    for (CaptureSource captureSource : sourceDestMap.keySet()) {
                         if (captureSource.isOpened()) {
-                            Mat frame = new Mat();
-                            captureSource.read(frame);
-                            for (VisionModule module : sourceDestMap.get(captureSource)) {
-                                module.run(app, frame);
+                            Mat frame = captureSource.read();
+                            if (frame == null) {
+                                // FIXME: We're reinitializing the capture source so we can loop it when we've reached
+                                // the end of the stream. The proper method would be to set the frame pointer for the
+                                // source to point back to the beginning of the stream, but this method does not
+                                // reliably work.
+                                captureSource.reinitializeCaptureSource();
+                                DebugPrinter.println("Looping capture source");
+                            }
+                            else {
+                                for (VisionModule module : sourceDestMap.get(captureSource)) {
+                                    module.run(app, frame);
+                                }
                             }
                         }
                     }
