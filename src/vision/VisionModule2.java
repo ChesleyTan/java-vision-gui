@@ -9,7 +9,7 @@ public class VisionModule2 implements VisionModule {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                app.postImage(frame, "Webcam");
+                app.postImage(frame, "Camera", VisionModule2.this);
             }
         }, "Vision Module 2 Thread");
         t.setDaemon(true);

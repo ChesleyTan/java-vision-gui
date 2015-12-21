@@ -18,7 +18,7 @@ public class VisionModule1 implements VisionModule {
                         m.put(r, c, new double[] {rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)});
                     }
                 }
-                app.postImage(m, "Master");
+                app.postImage(m, "Master", VisionModule1.this);
             }
         }, "Vision Module 1 Thread");
         t.setDaemon(true);

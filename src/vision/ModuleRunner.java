@@ -17,7 +17,8 @@ public class ModuleRunner {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
     {
-        sourceDestMap.put(new CaptureSource(""), new VisionModule[] { new VisionModule1(), new VisionModule2() });
+        // NOTE: Select which CaptureSources and VisionModules you want to run by adding them to the sourceDestMap
+        sourceDestMap.put(new CaptureSource(0), new VisionModule[] { new VisionModule1(), new VisionModule2() });
     }
 
     public void run(Main app) {
