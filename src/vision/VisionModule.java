@@ -4,6 +4,9 @@ import org.opencv.core.Mat;
 
 import gui.Main;
 
-public interface VisionModule {
-    public void run(Main app, Mat frame);
+public abstract class VisionModule {
+    public abstract void run(Main app, Mat frame);
+    public String getName() {
+        return getClass().getSimpleName();
+    }
 }

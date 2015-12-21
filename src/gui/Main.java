@@ -26,7 +26,7 @@ import vision.VisionModule;
 public class Main extends Application {
     private TabPane root;
     private Scene scene;
-    private HashMap<VisionModule, ControlsController> tabs = new HashMap<VisionModule, ControlsController>();
+    private HashMap<String, ControlsController> tabs = new HashMap<String, ControlsController>();
     private ModuleRunner moduleRunner = new ModuleRunner();
     private HashMap<String, ImageFrame> images = new HashMap<String, ImageFrame>();
 
@@ -67,27 +67,27 @@ public class Main extends Application {
             container.getChildren().addAll(imageView, text);
             images.put(label, new ImageFrame(container, imageView, text));
             // Check if the VisionModule already has its own tab
-            if (tabs.get(requester) != null) {
+            if (tabs.get(requester.getName()) != null) {
                 Platform.runLater(() -> {
-                    tabs.get(requester).flowPane.getChildren().add(container);
+                    tabs.get(requester.getName()).flowPane.getChildren().add(container);
                 });
             }
             else {
+                // Create a new tab for the VisionModule
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/module_main.fxml"));
+                ScrollPane moduleContainer = null;
+                try {
+                    moduleContainer = loader.load();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                ControlsController controlsController = loader.getController();
+                controlsController.setup();
+                controlsController.flowPane.getChildren().add(container);
+                tabs.put(requester.getName(), controlsController);
+                final ScrollPane finalModuleContainer = moduleContainer;
                 Platform.runLater(() -> {
-                    // Create a new tab for the VisionModule
-                    FXMLLoader loader = new FXMLLoader(
-                            getClass().getResource("fxml/module_main.fxml"));
-                    ScrollPane moduleContainer = null;
-                    try {
-                        moduleContainer = loader.load();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    ControlsController controlsController = loader.getController();
-                    controlsController.setup();
-                    controlsController.flowPane.getChildren().add(container);
-                    tabs.put(requester, controlsController);
-                    root.getTabs().add(new Tab(requester.getClass().getSimpleName(), moduleContainer));
+                    root.getTabs().add(new Tab(requester.getName(), finalModuleContainer));
                 });
             }
         }
