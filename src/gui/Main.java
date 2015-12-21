@@ -82,7 +82,7 @@ public class Main extends Application {
                     e.printStackTrace();
                 }
                 ControlsController controlsController = loader.getController();
-                controlsController.setup();
+                controlsController.setup(requester);
                 controlsController.flowPane.getChildren().add(container);
                 tabs.put(requester.getName(), controlsController);
                 final SplitPane finalModuleContainer = moduleContainer;
