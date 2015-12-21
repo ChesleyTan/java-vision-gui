@@ -12,7 +12,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
@@ -35,7 +35,7 @@ public class Main extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/main.fxml"));
             root = loader.load();
-            scene = new Scene(root, 800, 450);
+            scene = new Scene(root, 1000, 500);
             scene.getStylesheets().add(getClass().getResource("css/main.css").toExternalForm());
             moduleRunner.run(this);
             primaryStage.setOnCloseRequest((event) -> quit());
@@ -75,7 +75,7 @@ public class Main extends Application {
             else {
                 // Create a new tab for the VisionModule
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/module_main.fxml"));
-                ScrollPane moduleContainer = null;
+                SplitPane moduleContainer = null;
                 try {
                     moduleContainer = loader.load();
                 } catch (Exception e) {
@@ -85,7 +85,7 @@ public class Main extends Application {
                 controlsController.setup();
                 controlsController.flowPane.getChildren().add(container);
                 tabs.put(requester.getName(), controlsController);
-                final ScrollPane finalModuleContainer = moduleContainer;
+                final SplitPane finalModuleContainer = moduleContainer;
                 Platform.runLater(() -> {
                     root.getTabs().add(new Tab(requester.getName(), finalModuleContainer));
                 });

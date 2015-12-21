@@ -6,12 +6,20 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<ScrollPane prefHeight="425.0" prefViewportWidth="800.0" prefWidth="775.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ControlsController">
-   <content>
-      <FlowPane fx:id="flowPane" hgap="5.0" layoutX="14.0" layoutY="24.0" prefWrapLength="800.0" vgap="5.0" />
-   </content>
-   <padding>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-   </padding>
-</ScrollPane>
+<SplitPane dividerPositions="0.8" prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ControlsController">
+   <items>
+      <ScrollPane prefHeight="475.0" prefViewportWidth="800.0" prefWidth="800.0">
+         <content>
+            <FlowPane fx:id="flowPane" hgap="5.0" layoutX="14.0" layoutY="24.0" prefWrapLength="800.0" vgap="5.0" />
+         </content>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </ScrollPane>
+      <ScrollPane prefHeight="475.0" prefWidth="200.0">
+         <content>
+            <VBox prefHeight="475.0" prefWidth="200.0" />
+         </content>
+      </ScrollPane>
+   </items>
+</SplitPane>
