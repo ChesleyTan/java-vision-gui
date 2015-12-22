@@ -1,1 +1,6 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.slider-label {
+    -fx-font-size: 14px;
+}
+.slider-value {
+    -fx-font-size: 18px;
+}
