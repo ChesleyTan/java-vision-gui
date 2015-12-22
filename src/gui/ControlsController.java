@@ -27,21 +27,18 @@ public class ControlsController {
     FlowPane flowPane;
     @FXML
     VBox controlsContainer;
+    @FXML
+    Button restoreDefaults;
 
     final DecimalFormat formatter = new DecimalFormat("#.###");
 
     public void setup(VisionModule module) {
         ArrayList<SliderVariableWrapper> sliders = new ArrayList<>();
-        Button restoreDefaultsButton = new Button("Restore defaults");
-        restoreDefaultsButton.setOnAction((event) -> {
+        restoreDefaults.setOnAction((event) -> {
             for (SliderVariableWrapper slider : sliders) {
                 slider.restoreDefault();
             }
         });
-        Platform.runLater(() -> {
-            controlsContainer.getChildren().add(restoreDefaultsButton);
-        });
-
         ArrayList<Node> sliderContainers = new ArrayList<>();
         for (Field f : module.getClass().getFields()) {
             Class<?> fType = f.getType();
