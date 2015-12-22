@@ -18,6 +18,14 @@ public class CaptureSource {
         this.device = device;
         reinitializeCaptureSource();
     }
+    public CaptureSource(String filename, int maxDimension) {
+        this(filename);
+        setMaxImageDimension(maxDimension);
+    }
+    public CaptureSource(int device, int maxDimension) {
+        this(device);
+        setMaxImageDimension(maxDimension);
+    }
     public VideoCapture getCapture() {
         return capture;
     }

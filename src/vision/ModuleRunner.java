@@ -18,7 +18,7 @@ public class ModuleRunner {
     }
     {
         // NOTE: Select which CaptureSources and VisionModules you want to run by adding them to the sourceDestMap
-        sourceDestMap.put(new CaptureSource(0), new VisionModule[] { new VisionModule1(), new VisionModule2() });
+        sourceDestMap.put(new CaptureSource(0, 300), new VisionModule[] { new VisionModule1(), new VisionModule2() });
     }
 
     public void run(Main app) {
