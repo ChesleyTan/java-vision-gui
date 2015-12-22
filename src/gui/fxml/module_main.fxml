@@ -6,11 +6,13 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.85" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ControlsController">
+<SplitPane dividerPositions="0.85" xmlns="http://javafx.com/javafx/8"
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ControlsController">
 	<items>
 		<ScrollPane hbarPolicy="NEVER" prefWidth="825.0">
 			<content>
-				<FlowPane fx:id="flowPane" hgap="5.0" prefWidth="815.0" vgap="5.0" />
+				<FlowPane fx:id="flowPane" hgap="5.0" prefWidth="815.0"
+					vgap="5.0" />
 			</content>
 			<padding>
 				<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -18,10 +20,13 @@
 		</ScrollPane>
 		<ScrollPane minWidth="150.0">
 			<content>
-				<VBox fx:id="controlsContainer" alignment="center" prefWidth="140.0" spacing="10.0">
-               <children>
-                  <Button fx:id="restoreDefaults" mnemonicParsing="false" text="Restore defaults" prefWidth="140.0" />
-               </children></VBox>
+				<VBox fx:id="controlsContainer" alignment="center" prefWidth="140.0"
+					spacing="10.0">
+					<children>
+						<Button fx:id="restoreDefaults" mnemonicParsing="false"
+							text="Restore defaults" prefWidth="140.0" />
+					</children>
+				</VBox>
 			</content>
 			<padding>
 				<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
