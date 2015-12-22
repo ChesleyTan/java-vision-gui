@@ -1,15 +1,15 @@
 package vision;
 
-public class IntegerSliderVariable implements SliderVariable {
+public class IntegerSliderVariable extends SliderVariable {
+
     public final int DEFAULT, MIN, MAX;
-    public final String LABEL;
     private int val;
 
     protected IntegerSliderVariable(String label, int defaultVal, int minVal, int maxVal) {
+        super(label);
         this.DEFAULT = defaultVal;
         this.MIN = minVal;
         this.MAX = maxVal;
-        this.LABEL = label;
         this.val = defaultVal;
     }
 
@@ -18,6 +18,12 @@ public class IntegerSliderVariable implements SliderVariable {
     }
 
     public void set(int n) {
+        assert MIN <= n && n <= MAX;
         val = n;
     }
+
+    public void restoreDefault() {
+        set(DEFAULT);
+    }
+
 }

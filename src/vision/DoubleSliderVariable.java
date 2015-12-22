@@ -1,15 +1,15 @@
 package vision;
 
-public class DoubleSliderVariable implements SliderVariable {
+public class DoubleSliderVariable extends SliderVariable {
+
     public final double DEFAULT, MIN, MAX;
-    public final String LABEL;
     private double val;
 
     protected DoubleSliderVariable(String label, double defaultVal, double minVal, double maxVal) {
+        super(label);
         this.DEFAULT = defaultVal;
         this.MIN = minVal;
         this.MAX = maxVal;
-        this.LABEL = label;
         this.val = defaultVal;
     }
 
@@ -18,6 +18,12 @@ public class DoubleSliderVariable implements SliderVariable {
     }
 
     public void set(double d) {
+        assert MIN <= d && d <= MAX;
         val = d;
     }
+
+    public void restoreDefault() {
+        set(DEFAULT);
+    }
+
 }

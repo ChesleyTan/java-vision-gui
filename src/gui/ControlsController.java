@@ -24,12 +24,12 @@ import vision.SliderVariable;
 import vision.VisionModule;
 
 public class ControlsController {
+
     @FXML
     FlowPane flowPane;
     @FXML
     VBox controlsContainer;
 
-    @FXML
     public void setup(VisionModule module) {
         ArrayList<SliderVariableWrapper> sliders = new ArrayList<SliderVariableWrapper>();
         Button restoreDefaultsButton = new Button("Restore defaults");
@@ -37,14 +37,7 @@ public class ControlsController {
         restoreDefaultsButton.setAlignment(Pos.CENTER);
         restoreDefaultsButton.setOnAction((event) -> {
             for (SliderVariableWrapper slider : sliders) {
-                if (slider.sliderVariable instanceof IntegerSliderVariable) {
-                    IntegerSliderVariable isv = (IntegerSliderVariable) slider.sliderVariable;
-                    slider.slider.setValue(isv.DEFAULT);
-                }
-                if (slider.sliderVariable instanceof DoubleSliderVariable) {
-                    DoubleSliderVariable dsv = (DoubleSliderVariable) slider.sliderVariable;
-                    slider.slider.setValue(dsv.DEFAULT);
-                }
+                slider.sliderVariable.restoreDefault();
             }
         });
         Platform.runLater(() -> {
