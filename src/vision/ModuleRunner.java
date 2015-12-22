@@ -39,7 +39,14 @@ public class ModuleRunner {
                             }
                             else {
                                 for (VisionModule module : sourceDestMap.get(captureSource)) {
-                                    module.run(app, frame);
+                                    Thread t = new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            module.run(app, frame);
+                                        }
+                                    }, module.getName() + " Thread");
+                                    t.setDaemon(true);
+                                    t.start();
                                 }
                             }
                         }
