@@ -1,5 +1,6 @@
 package vision;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.opencv.core.Core;
@@ -9,7 +10,7 @@ import gui.Main;
 import util.DebugPrinter;
 
 public class ModuleRunner {
-    private HashMap<CaptureSource, VisionModule[]> sourceDestMap = new HashMap<CaptureSource, VisionModule[]>();
+    private ArrayList<CaptureSourceToVisionModuleMapper> sourceDestMap = new ArrayList<CaptureSourceToVisionModuleMapper>();
     private int FPS = 10;
 
     static {
@@ -20,7 +21,8 @@ public class ModuleRunner {
 
     {
         // NOTE: Select which CaptureSources and VisionModules you want to run by adding them to the sourceDestMap
-        sourceDestMap.put(new DeviceCaptureSource(0, 300), new VisionModule[] { new VisionModule1(), new VisionModule2() });
+        sourceDestMap.add(new CaptureSourceToVisionModuleMapper(new DeviceCaptureSource(0, 300), new VisionModule[] {
+                new VisionModule1(), new VisionModule2() }));
     }
 
     public void run(Main app) {
@@ -28,19 +30,19 @@ public class ModuleRunner {
             @Override
             public void run() {
                 while (true) {
-                    for (CaptureSource captureSource : sourceDestMap.keySet()) {
-                        if (captureSource.isOpened()) {
-                            Mat frame = captureSource.read();
+                    for (CaptureSourceToVisionModuleMapper captureSourceMap : sourceDestMap) {
+                        if (captureSourceMap.captureSource.isOpened()) {
+                            Mat frame = captureSourceMap.captureSource.read();
                             if (frame == null) {
                                 // FIXME: We're reinitializing the capture source so we can loop it when we've reached
                                 // the end of the stream. The proper method would be to set the frame pointer for the
                                 // source to point back to the beginning of the stream, but this method does not
                                 // reliably work.
-                                captureSource.reinitializeCaptureSource();
+                                captureSourceMap.captureSource.reinitializeCaptureSource();
                                 DebugPrinter.println("Looping capture source");
                             }
                             else {
-                                for (VisionModule module : sourceDestMap.get(captureSource)) {
+                                for (VisionModule module : captureSourceMap.modules) {
                                     Thread t = new Thread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -64,6 +66,16 @@ public class ModuleRunner {
         }, "Module Runner Thread");
         t.setDaemon(true);
         t.start();
+    }
+
+    private class CaptureSourceToVisionModuleMapper {
+        private CaptureSource captureSource;
+        private VisionModule[] modules;
+
+        public CaptureSourceToVisionModuleMapper(CaptureSource captureSource, VisionModule[] modules) {
+            this.captureSource = captureSource;
+            this.modules = modules;
+        }
     }
 
 }
