@@ -1,4 +1,4 @@
-package vision;
+package modules;
 
 import java.util.ArrayList;
 
@@ -9,6 +9,9 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import gui.Main;
+import vision.DoubleSliderVariable;
+import vision.IntegerSliderVariable;
+import vision.VisionModule;
 
 public class VisionModule2 extends VisionModule {
     public IntegerSliderVariable minSat = new IntegerSliderVariable("Min Saturation", 50,  0,  255);

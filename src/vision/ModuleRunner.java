@@ -1,7 +1,6 @@
 package vision;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -10,8 +9,8 @@ import gui.Main;
 import util.DebugPrinter;
 
 public class ModuleRunner {
-    private ArrayList<CaptureSourceToVisionModuleMapper> sourceDestMap = new ArrayList<CaptureSourceToVisionModuleMapper>();
-    private int FPS = 10;
+    private static ArrayList<CaptureSourceToVisionModuleMapper> sourceDestMap = new ArrayList<CaptureSourceToVisionModuleMapper>();
+    private static final int FPS = 10;
 
     static {
         DebugPrinter.println("OpenCV version: " + Core.VERSION);
@@ -19,10 +18,8 @@ public class ModuleRunner {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
 
-    {
-        // NOTE: Select which CaptureSources and VisionModules you want to run by adding them to the sourceDestMap
-        sourceDestMap.add(new CaptureSourceToVisionModuleMapper(new DeviceCaptureSource(0, 300), new VisionModule[] {
-                new VisionModule1(), new VisionModule2() }));
+    public static void addMapping(CaptureSource captureSource, VisionModule... modules) {
+        sourceDestMap.add(new CaptureSourceToVisionModuleMapper(captureSource, modules));
     }
 
     public void run(Main app) {
@@ -68,11 +65,11 @@ public class ModuleRunner {
         t.start();
     }
 
-    private class CaptureSourceToVisionModuleMapper {
+    private static class CaptureSourceToVisionModuleMapper {
         private CaptureSource captureSource;
         private VisionModule[] modules;
 
-        public CaptureSourceToVisionModuleMapper(CaptureSource captureSource, VisionModule[] modules) {
+        public CaptureSourceToVisionModuleMapper(CaptureSource captureSource, VisionModule... modules) {
             this.captureSource = captureSource;
             this.modules = modules;
         }

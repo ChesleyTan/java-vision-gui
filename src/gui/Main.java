@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import modules.VisionModuleSuite;
 import vision.ModuleRunner;
 import vision.VisionModule;
 
@@ -37,6 +38,7 @@ public class Main extends Application {
             root = loader.load();
             scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("css/main.css").toString());
+            new VisionModuleSuite();
             moduleRunner.run(this);
             primaryStage.setOnCloseRequest((event) -> quit());
             primaryStage.setTitle("Java Vision GUI");

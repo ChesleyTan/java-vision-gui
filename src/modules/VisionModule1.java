@@ -1,10 +1,11 @@
-package vision;
+package modules;
 import java.util.Random;
 
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 
 import gui.Main;
+import vision.VisionModule;
 
 public class VisionModule1 extends VisionModule {
     public void run(Main app, Mat frame) {
