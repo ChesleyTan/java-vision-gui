@@ -1,17 +1,15 @@
 package gui;
 
 import java.lang.reflect.Field;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.FlowPane;
@@ -30,6 +28,8 @@ public class ControlsController {
     @FXML
     VBox controlsContainer;
 
+    final DecimalFormat formatter = new DecimalFormat("#.###");
+
     public void setup(VisionModule module) {
         ArrayList<SliderVariableWrapper> sliders = new ArrayList<>();
         Button restoreDefaultsButton = new Button("Restore defaults");
@@ -37,12 +37,14 @@ public class ControlsController {
         restoreDefaultsButton.setAlignment(Pos.CENTER);
         restoreDefaultsButton.setOnAction((event) -> {
             for (SliderVariableWrapper slider : sliders) {
-                slider.sliderVariable.restoreDefault();
+                slider.restoreDefault();
             }
         });
         Platform.runLater(() -> {
             controlsContainer.getChildren().add(restoreDefaultsButton);
         });
+
+        ArrayList<Node> sliderContainers = new ArrayList<>();
         for (Field f : module.getClass().getFields()) {
             Class<?> fType = f.getType();
             if (fType.isAssignableFrom(IntegerSliderVariable.class)) {
@@ -50,75 +52,81 @@ public class ControlsController {
                 IntegerSliderVariable isv = null;
                 try {
                     isv = (IntegerSliderVariable) f.get(module);
-                } catch (IllegalArgumentException | IllegalAccessException e) {
+                }
+                catch (IllegalArgumentException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
                 VBox sliderContainer = new VBox();
                 sliderContainer.setAlignment(Pos.CENTER);
                 Slider slider = new Slider(isv.MIN, isv.MAX, isv.DEFAULT);
+                slider.setShowTickMarks(true);
+                Text value = new Text(Integer.toString(isv.DEFAULT));
+                value.getStyleClass().add("slider-value");
                 Text label = new Text(isv.LABEL);
                 label.getStyleClass().add("slider-label");
-                final Text value = new Text(Integer.toString(isv.DEFAULT));
-                value.getStyleClass().add("slider-value");
                 final IntegerSliderVariable finalIsv = isv;
                 sliderContainer.getChildren().addAll(slider, value, label);
                 slider.valueProperty().addListener(new ChangeListener<Number>() {
                     @Override
-                    public void changed(ObservableValue<? extends Number> observable,
-                            Number oldValue, Number newValue) {
+                    public void changed(ObservableValue<? extends Number> observable, Number oldValue,
+                            Number newValue) {
                         int intValue = newValue.intValue();
                         finalIsv.set(intValue);
                         value.setText(Integer.toString(intValue));
                     }
                 });
-                sliders.add(new SliderVariableWrapper(slider, finalIsv));
-                Platform.runLater(() -> {
-                    controlsContainer.getChildren().add(sliderContainer);
-                });
+                sliders.add(new SliderVariableWrapper(slider, isv));
+                sliderContainers.add(sliderContainer);
             }
             else if (fType.isAssignableFrom(DoubleSliderVariable.class)) {
                 DebugPrinter.println("Found DoubleSliderVariable: " + f.getName());
                 DoubleSliderVariable dsv = null;
                 try {
                     dsv = (DoubleSliderVariable) f.get(module);
-                } catch (IllegalArgumentException | IllegalAccessException e) {
+                }
+                catch (IllegalArgumentException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
                 VBox sliderContainer = new VBox();
                 sliderContainer.setAlignment(Pos.CENTER);
                 Slider slider = new Slider(dsv.MIN, dsv.MAX, dsv.DEFAULT);
+                slider.setShowTickMarks(true);
+                Text value = new Text(formatter.format(dsv.DEFAULT));
+                value.getStyleClass().add("slider-value");
                 Text label = new Text(dsv.LABEL);
                 label.getStyleClass().add("slider-label");
-                final DecimalFormat formatter = new DecimalFormat("#.######",
-                        DecimalFormatSymbols.getInstance(Locale.ENGLISH));
-                formatter.setRoundingMode(RoundingMode.DOWN);
-                final Text value = new Text(formatter.format(dsv.DEFAULT));
-                value.getStyleClass().add("slider-value");
                 final DoubleSliderVariable finalDsv = dsv;
                 sliderContainer.getChildren().addAll(slider, value, label);
                 slider.valueProperty().addListener(new ChangeListener<Number>() {
                     @Override
-                    public void changed(ObservableValue<? extends Number> observable,
-                            Number oldValue, Number newValue) {
+                    public void changed(ObservableValue<? extends Number> observable, Number oldValue,
+                            Number newValue) {
                         double doubleValue = newValue.doubleValue();
                         finalDsv.set(doubleValue);
                         value.setText(formatter.format(doubleValue));
                     }
                 });
                 sliders.add(new SliderVariableWrapper(slider, finalDsv));
-                Platform.runLater(() -> {
-                    controlsContainer.getChildren().add(sliderContainer);
-                });
+                sliderContainers.add(sliderContainer);
             }
         }
+        Platform.runLater(() -> {
+            controlsContainer.getChildren().addAll(sliderContainers);
+        });
     }
 
     private class SliderVariableWrapper {
         private Slider slider;
         private SliderVariable sliderVariable;
+
         private SliderVariableWrapper(Slider slider, SliderVariable sliderVariable) {
             this.slider = slider;
             this.sliderVariable = sliderVariable;
+        }
+
+        public void restoreDefault() {
+            sliderVariable.restoreDefault();
+            slider.setValue(sliderVariable.getValue().doubleValue());
         }
     }
 }
