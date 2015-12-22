@@ -67,7 +67,7 @@ public class Main extends Application {
             Text text = new Text(label);
             text.getStyleClass().add("image-label");
             container.getChildren().addAll(imageView, text);
-            images.put(label, new ImageFrame(container, imageView, text));
+            images.put(label, new ImageFrame(imageView, text));
             // Check if the VisionModule already has its own tab
             if (tabs.get(requester.getName()) != null) {
                 Platform.runLater(() -> {
@@ -107,12 +107,10 @@ public class Main extends Application {
     }
 
     private class ImageFrame {
-        private VBox container;
         private ImageView imageView;
         private Text label;
 
-        public ImageFrame(VBox container, ImageView imageView, Text label) {
-            this.container = container;
+        public ImageFrame(ImageView imageView, Text label) {
             this.imageView = imageView;
             this.label = label;
         }
