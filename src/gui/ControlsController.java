@@ -31,7 +31,7 @@ public class ControlsController {
     VBox controlsContainer;
 
     public void setup(VisionModule module) {
-        ArrayList<SliderVariableWrapper> sliders = new ArrayList<SliderVariableWrapper>();
+        ArrayList<SliderVariableWrapper> sliders = new ArrayList<>();
         Button restoreDefaultsButton = new Button("Restore defaults");
         restoreDefaultsButton.setPrefWidth(controlsContainer.getPrefWidth());
         restoreDefaultsButton.setAlignment(Pos.CENTER);

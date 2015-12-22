@@ -5,7 +5,7 @@ public class DoubleSliderVariable extends SliderVariable {
     public final double DEFAULT, MIN, MAX;
     private double val;
 
-    protected DoubleSliderVariable(String label, double defaultVal, double minVal, double maxVal) {
+    public DoubleSliderVariable(String label, double defaultVal, double minVal, double maxVal) {
         super(label);
         this.DEFAULT = defaultVal;
         this.MIN = minVal;

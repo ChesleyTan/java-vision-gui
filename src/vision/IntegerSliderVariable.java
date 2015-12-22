@@ -5,7 +5,7 @@ public class IntegerSliderVariable extends SliderVariable {
     public final int DEFAULT, MIN, MAX;
     private int val;
 
-    protected IntegerSliderVariable(String label, int defaultVal, int minVal, int maxVal) {
+    public IntegerSliderVariable(String label, int defaultVal, int minVal, int maxVal) {
         super(label);
         this.DEFAULT = defaultVal;
         this.MIN = minVal;
