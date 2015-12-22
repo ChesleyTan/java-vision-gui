@@ -35,8 +35,8 @@ public class Main extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/main.fxml"));
             root = loader.load();
-            scene = new Scene(root, 1000, 500);
-            scene.getStylesheets().add(getClass().getResource("css/main.css").toExternalForm());
+            scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("css/main.css").toString());
             moduleRunner.run(this);
             primaryStage.setOnCloseRequest((event) -> quit());
             primaryStage.setTitle("Java Vision GUI");

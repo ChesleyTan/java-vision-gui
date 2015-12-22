@@ -33,8 +33,6 @@ public class ControlsController {
     public void setup(VisionModule module) {
         ArrayList<SliderVariableWrapper> sliders = new ArrayList<>();
         Button restoreDefaultsButton = new Button("Restore defaults");
-        restoreDefaultsButton.setPrefWidth(controlsContainer.getPrefWidth());
-        restoreDefaultsButton.setAlignment(Pos.CENTER);
         restoreDefaultsButton.setOnAction((event) -> {
             for (SliderVariableWrapper slider : sliders) {
                 slider.restoreDefault();
