@@ -8,6 +8,9 @@ public abstract class SliderVariable {
         this.LABEL = label;
     }
 
+    public abstract Number getValue();
+    public abstract void setValue(Number n);
+
     public abstract void restoreDefault();
 
 }

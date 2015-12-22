@@ -17,9 +17,19 @@ public class DoubleSliderVariable extends SliderVariable {
         return val;
     }
 
+    @Override
+    public Number getValue() {
+        return value();
+    }
+
     public void set(double d) {
         assert MIN <= d && d <= MAX;
         val = d;
+    }
+
+    @Override
+    public void setValue(Number n) {
+        set(n.doubleValue());
     }
 
     public void restoreDefault() {

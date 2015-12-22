@@ -17,9 +17,19 @@ public class IntegerSliderVariable extends SliderVariable {
         return val;
     }
 
+    @Override
+    public Number getValue() {
+        return value();
+    }
+
     public void set(int n) {
         assert MIN <= n && n <= MAX;
         val = n;
+    }
+
+    @Override
+    public void setValue(Number n) {
+        set(n.intValue());
     }
 
     public void restoreDefault() {
