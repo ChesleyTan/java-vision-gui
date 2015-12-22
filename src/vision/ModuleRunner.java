@@ -11,14 +11,16 @@ import util.DebugPrinter;
 public class ModuleRunner {
     private HashMap<CaptureSource, VisionModule[]> sourceDestMap = new HashMap<CaptureSource, VisionModule[]>();
     private int FPS = 10;
+
     static {
         DebugPrinter.println("OpenCV version: " + Core.VERSION);
         DebugPrinter.println("Native library path: " + System.getProperty("java.library.path"));
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
+
     {
         // NOTE: Select which CaptureSources and VisionModules you want to run by adding them to the sourceDestMap
-        sourceDestMap.put(new CaptureSource(0, 300), new VisionModule[] { new VisionModule1(), new VisionModule2() });
+        sourceDestMap.put(new DeviceCaptureSource(0, 300), new VisionModule[] { new VisionModule1(), new VisionModule2() });
     }
 
     public void run(Main app) {
@@ -53,7 +55,8 @@ public class ModuleRunner {
                     }
                     try {
                         Thread.sleep(1000 / FPS);
-                    } catch (InterruptedException e) {
+                    }
+                    catch (InterruptedException e) {
                         break;
                     }
                 }
@@ -62,4 +65,5 @@ public class ModuleRunner {
         t.setDaemon(true);
         t.start();
     }
+
 }

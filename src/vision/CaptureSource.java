@@ -3,52 +3,22 @@ package vision;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
-import org.opencv.videoio.VideoCapture;
 
-public class CaptureSource {
-    private String filename = null;
-    private Integer device = null;
-    private VideoCapture capture = null;
+public abstract class CaptureSource {
+
     private int maxImageDimension = 400;
-    public CaptureSource(String filename) {
-        this.filename = filename;
-        reinitializeCaptureSource();
-    }
-    public CaptureSource(int device) {
-        this.device = device;
-        reinitializeCaptureSource();
-    }
-    public CaptureSource(String filename, int maxDimension) {
-        this(filename);
-        setMaxImageDimension(maxDimension);
-    }
-    public CaptureSource(int device, int maxDimension) {
-        this(device);
-        setMaxImageDimension(maxDimension);
-    }
-    public VideoCapture getCapture() {
-        return capture;
-    }
-    public void reinitializeCaptureSource() {
-        if (capture != null) {
-            capture.release();
-        }
-        if (filename != null) {
-            capture = new VideoCapture(filename);
-        }
-        else if (device != null) {
-            capture = new VideoCapture(device);
-        }
-    }
+
+    public abstract void reinitializeCaptureSource();
+
     public void setMaxImageDimension(int dim) {
         this.maxImageDimension = dim;
     }
-    public boolean isOpened() {
-        return capture.isOpened();
-    }
+
+    public abstract boolean isOpened();
+
     public Mat read() {
         Mat frame = new Mat();
-        boolean success = capture.read(frame);
+        boolean success = readFrame(frame);
         if (success) {
             int frameHeight = frame.height();
             int frameWidth = frame.width();
@@ -62,4 +32,6 @@ public class CaptureSource {
             return null;
         }
     }
+
+    public abstract boolean readFrame(Mat mat);
 }
