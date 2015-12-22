@@ -62,6 +62,7 @@ public class Main extends Application {
         if (existingFrame == null) {
             VBox container = new VBox();
             Text text = new Text(label);
+            text.getStyleClass().add("image-label");
             ImageView imageView = new ImageView(image);
             container.setAlignment(Pos.CENTER);
             container.getChildren().addAll(imageView, text);
