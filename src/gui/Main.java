@@ -38,7 +38,16 @@ public class Main extends Application {
             root = loader.load();
             scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("css/main.css").toString());
+            // Initialize ModuleRunner with VisionModuleSuite
             new VisionModuleSuite();
+            for (VisionModule module : moduleRunner.getModules()) {
+                FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("fxml/module_main.fxml"));
+                final SplitPane moduleContainer = tabLoader.load();
+                ControlsController controlsController = tabLoader.getController();
+                controlsController.setup(module);
+                tabs.put(module.getName(), controlsController);
+                root.getTabs().add(new Tab(module.getName(), moduleContainer));
+            }
             moduleRunner.run(this);
             primaryStage.setOnCloseRequest((event) -> quit());
             primaryStage.setTitle("Java Vision GUI");
@@ -70,29 +79,9 @@ public class Main extends Application {
             text.getStyleClass().add("image-label");
             container.getChildren().addAll(imageView, text);
             images.put(label, new ImageFrame(imageView, text));
-            // Check if the VisionModule already has its own tab
-            if (tabs.get(requester.getName()) != null) {
-                Platform.runLater(() -> {
-                    tabs.get(requester.getName()).flowPane.getChildren().add(container);
-                });
-            }
-            else {
-                // Create a new tab for the VisionModule
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/module_main.fxml"));
-                    final SplitPane moduleContainer = loader.load();
-                    ControlsController controlsController = loader.getController();
-                    controlsController.setup(requester);
-                    controlsController.flowPane.getChildren().add(container);
-                    tabs.put(requester.getName(), controlsController);
-                    Platform.runLater(() -> {
-                        root.getTabs().add(new Tab(requester.getName(), moduleContainer));
-                    });
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            Platform.runLater(() -> {
+                tabs.get(requester.getName()).flowPane.getChildren().add(container);
+            });
         }
         else {
             // Update the existing ImageFrame

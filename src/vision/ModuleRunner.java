@@ -65,6 +65,16 @@ public class ModuleRunner {
         t.start();
     }
 
+    public ArrayList<VisionModule> getModules() {
+        ArrayList<VisionModule> modules = new ArrayList<VisionModule>();
+        for (CaptureSourceToVisionModuleMapper map : sourceDestMap) {
+            for (VisionModule module : map.modules) {
+                modules.add(module);
+            }
+        }
+        return modules;
+    }
+
     private static class CaptureSourceToVisionModuleMapper {
         private CaptureSource captureSource;
         private VisionModule[] modules;
