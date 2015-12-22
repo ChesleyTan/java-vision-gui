@@ -42,7 +42,8 @@ public class Main extends Application {
             primaryStage.setTitle("Java Vision GUI");
             primaryStage.setScene(scene);
             primaryStage.show();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -61,10 +62,10 @@ public class Main extends Application {
         ImageFrame existingFrame = images.get(label);
         if (existingFrame == null) {
             VBox container = new VBox();
+            container.setAlignment(Pos.CENTER);
+            ImageView imageView = new ImageView(image);
             Text text = new Text(label);
             text.getStyleClass().add("image-label");
-            ImageView imageView = new ImageView(image);
-            container.setAlignment(Pos.CENTER);
             container.getChildren().addAll(imageView, text);
             images.put(label, new ImageFrame(container, imageView, text));
             // Check if the VisionModule already has its own tab
@@ -75,21 +76,20 @@ public class Main extends Application {
             }
             else {
                 // Create a new tab for the VisionModule
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/module_main.fxml"));
-                SplitPane moduleContainer = null;
                 try {
-                    moduleContainer = loader.load();
-                } catch (Exception e) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/module_main.fxml"));
+                    final SplitPane moduleContainer = loader.load();
+                    ControlsController controlsController = loader.getController();
+                    controlsController.setup(requester);
+                    controlsController.flowPane.getChildren().add(container);
+                    tabs.put(requester.getName(), controlsController);
+                    Platform.runLater(() -> {
+                        root.getTabs().add(new Tab(requester.getName(), moduleContainer));
+                    });
+                }
+                catch (Exception e) {
                     e.printStackTrace();
                 }
-                ControlsController controlsController = loader.getController();
-                controlsController.setup(requester);
-                controlsController.flowPane.getChildren().add(container);
-                tabs.put(requester.getName(), controlsController);
-                final SplitPane finalModuleContainer = moduleContainer;
-                Platform.runLater(() -> {
-                    root.getTabs().add(new Tab(requester.getName(), finalModuleContainer));
-                });
             }
         }
         else {
@@ -110,6 +110,7 @@ public class Main extends Application {
         private VBox container;
         private ImageView imageView;
         private Text label;
+
         public ImageFrame(VBox container, ImageView imageView, Text label) {
             this.container = container;
             this.imageView = imageView;
