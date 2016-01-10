@@ -15,5 +15,4 @@ public class VisionModuleSuite {
     static {
         ModuleRunner.addMapping(new DeviceCaptureSource(0, 300), new VisionModule1(), new VisionModule2());
     }
-
 }

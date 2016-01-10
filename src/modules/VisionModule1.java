@@ -17,6 +17,6 @@ public class VisionModule1 extends VisionModule {
                         new double[] { rand.nextInt(256), rand.nextInt(256), rand.nextInt(256) });
             }
         }
-        app.postImage(m, "Master", VisionModule1.this);
+        app.postImage(m, "Master", this);
     }
 }
