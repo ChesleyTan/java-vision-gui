@@ -1,4 +1,4 @@
-package vision;
+package gui;
 
 public class IntegerSliderVariable extends SliderVariable {
 

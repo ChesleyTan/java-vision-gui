@@ -8,9 +8,9 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
+import gui.DoubleSliderVariable;
+import gui.IntegerSliderVariable;
 import gui.Main;
-import vision.DoubleSliderVariable;
-import vision.IntegerSliderVariable;
 import vision.VisionModule;
 
 public class VisionModule2 extends VisionModule {

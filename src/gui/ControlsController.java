@@ -16,9 +16,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import util.DebugPrinter;
-import vision.DoubleSliderVariable;
-import vision.IntegerSliderVariable;
-import vision.SliderVariable;
 import vision.VisionModule;
 
 public class ControlsController {
