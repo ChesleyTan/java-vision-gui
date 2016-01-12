@@ -13,6 +13,7 @@ GREEN="\033[1;38;5;10m"
 YELLOW="\033[1;38;5;11m"
 RESET="\033[m"
 
+echo "${YELLOW}Installing opencv-$OPENCV_VERSION for Mac/Linux${RESET} ...\n"
 echo "================================================================================
 Make sure that you have the required dependencies!
 Linux:
@@ -21,7 +22,9 @@ Linux:
 Mac:
     Install Xcode Command Line Tools: http://railsapps.github.io/xcode-command-line-tools.html
     Install Homebrew: http://brew.sh
-    Install cmake: brew install cmake
+    Install cmake: brew install cmake pkg-config
+    Install image libraries: brew install jpeg libpng libtiff openexr
+    Install optimization libraries: brew install eigen tbb
 ================================================================================
 "
 echo "${YELLOW}Continue install? [y|n]${RESET}"
@@ -43,5 +46,10 @@ cd build
 cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_TBB=ON -D WITH_V4L=ON -D WITH_QT=ON -D WITH_OPENGL=ON ..
 make -j4
 
-echo "${GREEN}Finished building opencv-$OPENCV_VERSION${RESET}"
-echo "${YELLOW}Import opencv.userlibraries to your Eclipse user libraries to use Java bindings for opencv${RESET}"
+if [[ $? = 0 ]]; then
+    echo "${GREEN}Finished building opencv-$OPENCV_VERSION${RESET}"
+    echo "${YELLOW}Import opencv.userlibraries to your Eclipse user libraries to use Java bindings for opencv${RESET}"
+else
+    echo "${RED}There were errors building opencv-$OPENCV_VERSION :(${RESET}"
+    echo "${RED}Try googling the errors produced above for solutions.${RESET}"
+fi
