@@ -9,22 +9,23 @@
 <SplitPane dividerPositions="0.85" xmlns="http://javafx.com/javafx/8"
 	xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ControlsController">
 	<items>
-		<ScrollPane hbarPolicy="NEVER" prefWidth="825.0">
+		<ScrollPane hbarPolicy="NEVER" minWidth="735.0">
 			<content>
-				<FlowPane fx:id="flowPane" hgap="5.0" prefWidth="815.0"
+				<FlowPane fx:id="flowPane" hgap="5.0" minWidth="725.0"
 					vgap="5.0" />
 			</content>
 			<padding>
 				<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
 			</padding>
 		</ScrollPane>
-		<ScrollPane minWidth="150.0">
+		<!-- Middle divider + scrollbar takes 25px -->
+		<ScrollPane minWidth="200.0">
 			<content>
-				<VBox fx:id="controlsContainer" alignment="center" prefWidth="140.0"
+				<VBox fx:id="controlsContainer" alignment="center" prefWidth="190.0"
 					spacing="10.0">
 					<children>
 						<Button fx:id="restoreDefaults" mnemonicParsing="false"
-							text="Restore defaults" prefWidth="140.0" />
+							text="Restore defaults" prefWidth="190.0" />
 					</children>
 				</VBox>
 			</content>

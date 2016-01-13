@@ -6,7 +6,7 @@ import org.opencv.imgproc.Imgproc;
 
 public abstract class CaptureSource {
 
-    private int maxImageDimension = 400;
+    private int maxImageDimension = 360;
 
     public abstract void reinitializeCaptureSource();
 
