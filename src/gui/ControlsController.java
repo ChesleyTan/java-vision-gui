@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
@@ -30,13 +31,13 @@ public class ControlsController {
     final DecimalFormat formatter = new DecimalFormat("#.###");
 
     public void setup(VisionModule module) {
-        ArrayList<SliderVariableWrapper> sliders = new ArrayList<>();
+        ArrayList<VariableWrapper> variables = new ArrayList<>();
         restoreDefaults.setOnAction((event) -> {
-            for (SliderVariableWrapper slider : sliders) {
-                slider.restoreDefault();
+            for (VariableWrapper var : variables) {
+                var.restoreDefault();
             }
         });
-        ArrayList<Node> sliderContainers = new ArrayList<>();
+        ArrayList<Node> variableContainers = new ArrayList<>();
         for (Field f : module.getClass().getFields()) {
             Class<?> fType = f.getType();
             if (fType.isAssignableFrom(IntegerSliderVariable.class)) {
@@ -67,8 +68,8 @@ public class ControlsController {
                         value.setText(Integer.toString(intValue));
                     }
                 });
-                sliders.add(new SliderVariableWrapper(slider, isv));
-                sliderContainers.add(sliderContainer);
+                variables.add(new SliderVariableWrapper(slider, isv));
+                variableContainers.add(sliderContainer);
             }
             else if (fType.isAssignableFrom(DoubleSliderVariable.class)) {
                 DebugPrinter.println("Found DoubleSliderVariable: " + f.getName());
@@ -98,16 +99,46 @@ public class ControlsController {
                         value.setText(formatter.format(doubleValue));
                     }
                 });
-                sliders.add(new SliderVariableWrapper(slider, finalDsv));
-                sliderContainers.add(sliderContainer);
+                variables.add(new SliderVariableWrapper(slider, finalDsv));
+                variableContainers.add(sliderContainer);
+            }
+            else if (fType.isAssignableFrom(BooleanVariable.class)) {
+                DebugPrinter.println("Found BooleanVariable: " + f.getName());
+                BooleanVariable bv = null;
+                try {
+                    bv = (BooleanVariable) f.get(module);
+                }
+                catch (IllegalArgumentException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+                VBox checkBoxContainer = new VBox();
+                checkBoxContainer.setAlignment(Pos.CENTER);
+                CheckBox checkBox = new CheckBox(bv.LABEL);
+                checkBox.getStyleClass().add("boolean-label");
+                final BooleanVariable finalBv = bv;
+                checkBoxContainer.getChildren().addAll(checkBox);
+                checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
+                            Boolean newValue) {
+                        boolean booleanValue = newValue.booleanValue();
+                        finalBv.setValue(booleanValue);
+                    }
+                });
+                variables.add(new BooleanVariableWrapper(checkBox, finalBv));
+                variableContainers.add(checkBoxContainer);
             }
         }
         Platform.runLater(() -> {
-            controlsContainer.getChildren().addAll(sliderContainers);
+            controlsContainer.getChildren().addAll(variableContainers);
         });
     }
 
-    private class SliderVariableWrapper {
+    private abstract class VariableWrapper {
+        public abstract void restoreDefault();
+    }
+
+    private class SliderVariableWrapper extends VariableWrapper {
         private Slider slider;
         private NumberVariable sliderVariable;
 
@@ -119,6 +150,21 @@ public class ControlsController {
         public void restoreDefault() {
             sliderVariable.restoreDefault();
             slider.setValue(sliderVariable.getValue().doubleValue());
+        }
+    }
+
+    private class BooleanVariableWrapper extends VariableWrapper {
+        private CheckBox checkBox;
+        private BooleanVariable booleanVariable;
+
+        private BooleanVariableWrapper(CheckBox checkBox, BooleanVariable booleanVariable) {
+            this.checkBox = checkBox;
+            this.booleanVariable = booleanVariable;
+        }
+
+        public void restoreDefault() {
+            booleanVariable.restoreDefault();
+            checkBox.setSelected(booleanVariable.getValue());
         }
     }
 }

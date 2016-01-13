@@ -6,6 +6,6 @@ public interface NumberVariable {
 
     public void setValue(Number n);
 
-    public abstract void restoreDefault();
+    public void restoreDefault();
 
 }

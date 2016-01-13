@@ -8,4 +8,6 @@ public abstract class Variable {
         this.LABEL = label;
     }
 
+    public abstract void restoreDefault();
+
 }

@@ -4,6 +4,9 @@
 .slider-value {
     -fx-font-size: 14px;
 }
+.boolean-label {
+	-fx-font-size: 14px;
+}
 .image-label {
     -fx-font-size: 14px;
 }
