@@ -24,7 +24,7 @@ public class VisionModule2 extends VisionModule {
     public BooleanVariable dummyBoolean = new BooleanVariable("Dummy Boolean", true);
 
     public void run(Main app, Mat frame) {
-        app.postImage(frame, "Camera", this);
+        app.postImage(frame, "Master", this);
 
         // blur
         Mat blurred = new Mat();
