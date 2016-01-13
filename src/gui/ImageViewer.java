@@ -13,6 +13,8 @@ public class ImageViewer {
     private static ImageViewer instance;
     private HashMap<ImageView, Stage> windows = new HashMap<>();
 
+    private ImageViewer() {}
+
     public static ImageViewer getInstance() {
         if (instance == null) {
             instance = new ImageViewer();
@@ -23,7 +25,10 @@ public class ImageViewer {
     public void showImage(String label, ImageView image) {
         Stage imageWindow = windows.get(image);
         if (imageWindow != null) {
-            imageWindow.toFront();
+            final Stage finalImageWindow = imageWindow;
+            Platform.runLater(() -> {
+                finalImageWindow.toFront();
+            });
         }
         else {
             imageWindow = new Stage();
