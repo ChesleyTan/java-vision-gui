@@ -16,6 +16,11 @@ public class ImageCaptureSource extends CaptureSource {
         reinitializeCaptureSource();
     }
 
+    public ImageCaptureSource(String filename, int maxDimension) {
+        this(filename);
+        setMaxImageDimension(maxDimension);
+    }
+
     @Override
     public void reinitializeCaptureSource() {
         mat = Imgcodecs.imread(filename);
