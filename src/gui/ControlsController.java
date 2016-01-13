@@ -114,6 +114,7 @@ public class ControlsController {
                 VBox checkBoxContainer = new VBox();
                 checkBoxContainer.setAlignment(Pos.CENTER);
                 CheckBox checkBox = new CheckBox(bv.LABEL);
+                checkBox.setSelected(bv.DEFAULT);
                 checkBox.getStyleClass().add("boolean-label");
                 final BooleanVariable finalBv = bv;
                 checkBoxContainer.getChildren().addAll(checkBox);
