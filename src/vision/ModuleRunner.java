@@ -61,7 +61,6 @@ public class ModuleRunner {
                 }
             }
         }, "Module Runner Thread");
-        t.setDaemon(true);
         t.start();
     }
 

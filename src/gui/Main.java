@@ -17,6 +17,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -82,6 +83,13 @@ public class Main extends Application {
             images.put(key, new ImageFrame(imageView, text));
             Platform.runLater(() -> {
                 tabs.get(requester.hashCode()).flowPane.getChildren().add(container);
+            });
+            container.setOnMouseClicked((event) -> {
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    if (event.getClickCount() == 2) {
+                        ImageViewer.getInstance().showImage(label, imageView);
+                    }
+                }
             });
         }
         else {
