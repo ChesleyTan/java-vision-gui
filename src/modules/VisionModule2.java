@@ -56,7 +56,7 @@ public class VisionModule2 extends VisionModule {
 
         // find all outer contours
         ArrayList<MatOfPoint> contours = new ArrayList<>();
-        Imgproc.findContours(thresholdedImage, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+        Imgproc.findContours(thresholdedImage, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
         Mat frameCopy = frame.clone();
         Imgproc.drawContours(frameCopy, contours, -1, new Scalar(255, 0, 255), 2);
         app.postImage(frameCopy, "Contours", this);
