@@ -3,11 +3,15 @@ package vision;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
 
+import util.FileManager;
+
 public class ImageCaptureSource extends CaptureSource {
+
     private final String filename;
     private Mat mat = null;
 
     public ImageCaptureSource(String filename) {
+        FileManager.assertFileExists(filename);
         this.filename = filename;
         reinitializeCaptureSource();
     }
@@ -27,4 +31,5 @@ public class ImageCaptureSource extends CaptureSource {
         this.mat.copyTo(mat);
         return true;
     }
+
 }

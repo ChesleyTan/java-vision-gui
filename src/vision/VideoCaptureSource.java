@@ -3,12 +3,15 @@ package vision;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 
+import util.FileManager;
+
 public class VideoCaptureSource extends CaptureSource {
 
     private final String filename;
     private VideoCapture capture = null;
 
     public VideoCaptureSource(String filename) {
+        FileManager.assertFileExists(filename);
         this.filename = filename;
         reinitializeCaptureSource();
     }
