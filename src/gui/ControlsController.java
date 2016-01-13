@@ -109,9 +109,9 @@ public class ControlsController {
 
     private class SliderVariableWrapper {
         private Slider slider;
-        private SliderVariable sliderVariable;
+        private NumberVariable sliderVariable;
 
-        private SliderVariableWrapper(Slider slider, SliderVariable sliderVariable) {
+        private SliderVariableWrapper(Slider slider, NumberVariable sliderVariable) {
             this.slider = slider;
             this.sliderVariable = sliderVariable;
         }

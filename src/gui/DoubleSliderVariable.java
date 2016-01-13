@@ -1,6 +1,6 @@
 package gui;
 
-public class DoubleSliderVariable extends SliderVariable {
+public class DoubleSliderVariable extends Variable implements NumberVariable {
 
     public final double DEFAULT, MIN, MAX;
     private double val;

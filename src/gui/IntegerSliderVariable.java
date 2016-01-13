@@ -1,6 +1,6 @@
 package gui;
 
-public class IntegerSliderVariable extends SliderVariable {
+public class IntegerSliderVariable extends Variable implements NumberVariable {
 
     public final int DEFAULT, MIN, MAX;
     private int val;
