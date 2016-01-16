@@ -79,8 +79,10 @@ public class Main extends Application {
             ImageView imageView = new ImageView(image);
             Text text = new Text(label);
             text.getStyleClass().add("image-label");
-            container.getChildren().addAll(imageView, text);
-            images.put(key, new ImageFrame(imageView, text));
+            VBox tagContainer = new VBox();
+            tagContainer.setAlignment(Pos.CENTER);
+            container.getChildren().addAll(imageView, text, tagContainer);
+            images.put(key, new ImageFrame(imageView, text, tagContainer));
             Platform.runLater(() -> {
                 tabs.get(requester.hashCode()).flowPane.getChildren().add(container);
             });
@@ -96,10 +98,18 @@ public class Main extends Application {
             // Update the existing ImageFrame
             Platform.runLater(() -> {
                 existingFrame.imageView.setImage(image);
-                existingFrame.imageView.toFront();
-                existingFrame.label.toFront();
             });
         }
+    }
+
+    public synchronized boolean postTag(String imageLabel, String tagKey, String tagValue, VisionModule requester) {
+        String key = requester.hashCode() + imageLabel;
+        ImageFrame existingFrame = images.get(key);
+        if (existingFrame != null) {
+            existingFrame.addTag(tagKey, tagValue);
+            return true;
+        }
+        return false;
     }
 
     public static void main(String[] args) {
@@ -109,10 +119,29 @@ public class Main extends Application {
     private class ImageFrame {
         private ImageView imageView;
         private Text label;
+        private VBox tagContainer;
+        private HashMap<String, Text> tags;
 
-        public ImageFrame(ImageView imageView, Text label) {
+        private ImageFrame(ImageView imageView, Text label, VBox tagContainer) {
             this.imageView = imageView;
             this.label = label;
+            this.tagContainer = tagContainer;
+            this.tags = new HashMap<String, Text>();
+        }
+
+        private void addTag(String key, String value) {
+            Text existingTag = tags.get(key);
+            if (existingTag != null) {
+                existingTag.setText(value);
+            }
+            else {
+                Text newTag = new Text(value);
+                newTag.getStyleClass().add("image-tag");
+                tags.put(key, newTag);
+                Platform.runLater(() -> {
+                    tagContainer.getChildren().add(newTag);
+                });
+            }
         }
     }
 }

@@ -10,3 +10,7 @@
 .image-label {
     -fx-font-size: 14px;
 }
+.image-tag {
+    -fx-font-size: 12px;
+    -fx-font-family: Monospace;
+}
