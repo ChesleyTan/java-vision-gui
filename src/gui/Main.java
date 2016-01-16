@@ -52,6 +52,8 @@ public class Main extends Application {
             moduleRunner.run(this);
             primaryStage.setOnCloseRequest((event) -> quit());
             primaryStage.setTitle("Java Vision GUI");
+            primaryStage.setMinWidth(root.getMinWidth());
+            primaryStage.setMinHeight(root.getMinHeight());
             primaryStage.setScene(scene);
             primaryStage.show();
         }
