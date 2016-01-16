@@ -42,6 +42,7 @@ public class Main extends Application {
             // Initialize ModuleRunner with VisionModuleSuite
             new VisionModuleSuite();
             for (VisionModule module : moduleRunner.getModules()) {
+                module.setMainApp(this);
                 FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("fxml/module_main.fxml"));
                 final SplitPane moduleContainer = tabLoader.load();
                 ControlsController controlsController = tabLoader.getController();
@@ -49,7 +50,7 @@ public class Main extends Application {
                 tabs.put(module.hashCode(), controlsController);
                 root.getTabs().add(new Tab(module.getName(), moduleContainer));
             }
-            moduleRunner.run(this);
+            moduleRunner.run();
             primaryStage.setOnCloseRequest((event) -> quit());
             primaryStage.setTitle("Java Vision GUI");
             primaryStage.setMinWidth(root.getMinWidth());
@@ -145,7 +146,7 @@ public class Main extends Application {
             this.tags = new HashMap<String, Text>();
         }
 
-        private void addTag(String key, String value) {
+        private synchronized void addTag(String key, String value) {
             Text existingTag = tags.get(key);
             if (existingTag != null) {
                 existingTag.setText(value);

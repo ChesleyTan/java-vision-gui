@@ -22,7 +22,7 @@ public class ModuleRunner {
         sourceDestMap.add(new CaptureSourceToVisionModuleMapper(captureSource, modules));
     }
 
-    public void run(Main app) {
+    public void run() {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -44,7 +44,7 @@ public class ModuleRunner {
                                         @Override
                                         public void run() {
                                             long start = System.currentTimeMillis();
-                                            module.run(app, frame);
+                                            module.run(frame);
                                             long duration = System.currentTimeMillis() - start;
                                             //DebugPrinter.println(module.getName() + ": " + duration + " ms");
                                         }
