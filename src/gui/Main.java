@@ -65,6 +65,12 @@ public class Main extends Application {
         System.exit(0);
     }
 
+    /**
+     * Posts an image to the GUI under the given {@code imageLabel}
+     * @param m the Mat containing the image
+     * @param label a unique label for this image
+     * @param requester the VisionModule calling this method
+     */
     public synchronized void postImage(Mat m, String label, VisionModule requester) {
         String key = requester.hashCode() + label;
         // Convert raw image to PNG
@@ -102,6 +108,14 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Posts an image tag (arbitrary text) to the GUI under the given {@code imageLabel}
+     * @param imageLabel the label of the image to which to add a tag
+     * @param tagKey a unique key for this tag
+     * @param tagValue the value to display for this tag
+     * @param requester the VisionModule calling this method
+     * @return true if a tag was successfully posted, false otherwise
+     */
     public synchronized boolean postTag(String imageLabel, String tagKey, String tagValue, VisionModule requester) {
         String key = requester.hashCode() + imageLabel;
         ImageFrame existingFrame = images.get(key);
