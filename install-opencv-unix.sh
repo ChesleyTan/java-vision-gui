@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 OPENCV_VERSION=3.0.0
 
